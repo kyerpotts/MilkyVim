@@ -28,7 +28,7 @@ return {
     name = "decay",
     priority = 1000,
     config = function()
-      require("decay").setup({
+        require("decay").setup({
         style = "decayce",
         italics = {
           comments = true,
