@@ -26,7 +26,13 @@ return {
       filesystem = {
         filtered_items = {
           hide_dotfiles = false,
-          hid_gitignored = true,
+          hide_gitignored = true,
+          hide_by_pattern = {
+            ".git",
+          },
+          always_show = {
+            ".gitignored",
+          }
         },
       },
       follow_current_file = {
