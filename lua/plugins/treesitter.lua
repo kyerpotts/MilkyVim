@@ -12,6 +12,8 @@ return {
       indent = {
         enable = true,
       },
+      sync_install = false,
+      ignore_install = {}
     })
 
   end

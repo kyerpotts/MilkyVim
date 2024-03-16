@@ -19,5 +19,5 @@ return {
   vim.keymap.set("n", "<leader>f/", function() builtin.live_grep {
     grep_open_files = true,
     prompt_title = "Live Grep in Open Files",
-  } end, { desc = "[F]ind [/] in Open Files"})
+  } end, { desc = "[F]ind [/] in Open Files"}),
 }
