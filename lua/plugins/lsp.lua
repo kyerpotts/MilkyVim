@@ -29,11 +29,14 @@ return {
     require("mason").setup({})
     require("mason-lspconfig").setup({
       ensure_installed = { "lua_ls", },
+
     })
 
     require("neodev").setup()
 
     local lspconfig = require("lspconfig")
-    lspconfig.lua_ls.setup({})
+    lspconfig.lua_ls.setup({
+
+    })
   end,
 }
