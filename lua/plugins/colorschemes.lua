@@ -7,7 +7,7 @@ return {
       require("catppuccin").setup({
         flavour = "mocha",
         styles = {
-          commends = {"italic"},
+          commends = { "italic" },
           conditionals = { "italic" },
         },
         integrations = {

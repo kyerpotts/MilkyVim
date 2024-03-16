@@ -15,6 +15,5 @@ return {
       sync_install = false,
       ignore_install = {}
     })
-
   end
 }
