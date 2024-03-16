@@ -7,6 +7,11 @@ return {
     { "folke/neodev.nvim", opts = {} },
     { "j-hui/fidget.nvim", opts = {} },
   },
+  { "linux-cultist/venv-selector.nvim", opts = {},
+    keys = {
+      { "<leader>lv", "<cmd>VenvSelect<cr>", { desc = "Select Python [V]irtual En[V]ironment" } }
+    },
+  },
   config = function()
     vim.api.nvim_create_autocmd("LspAttach", {
       group = vim.api.nvim_create_augroup("milky-lsp-attach", { clear = true }),
@@ -28,15 +33,10 @@ return {
 
     require("mason").setup({})
     require("mason-lspconfig").setup({
-      ensure_installed = { "lua_ls", },
-
+      ensure_installed = { "lua_ls", "jdtls", "lemminx", "pyright", "ruff_lsp"},
     })
-
-    require("neodev").setup()
-
     local lspconfig = require("lspconfig")
-    lspconfig.lua_ls.setup({
-
-    })
+    lspconfig.lua_ls.setup({})
+    lspconfig.jdtls.setup({})
   end,
 }
