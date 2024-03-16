@@ -1,6 +1,7 @@
 local builtin = require("telescope.builtin")
 return {
   vim.keymap.set("n", "<leader><leader>", builtin.buffers, { desc = "[ ] Find Buffers" }),
+  vim.keymap.set("n", "<leader>gf", builtin.git_files, { desc = "[G]it [F]iles" }),
   vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "[F]ind [F]iles" }),
   vim.keymap.set("n", "<leader>fk", builtin.keymaps, { desc = "[F]ind [K]eymaps" }),
   vim.keymap.set("n", "<leader>fd", builtin.diagnostics, { desc = "[F]ind [D]iagnostics" }),
@@ -20,4 +21,5 @@ return {
     grep_open_files = true,
     prompt_title = "Live Grep in Open Files",
   } end, { desc = "[F]ind [/] in Open Files"}),
+  vim.keymap.set("n", "<leader>tt", "<cmd>TodoTelescope<cr>", { desc = "[T]odo's [T]elescope" }),
 }
