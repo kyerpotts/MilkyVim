@@ -10,9 +10,10 @@ function keybinds.get_bindings()
     { "n", "gI",         telescope.lsp_implementations,           { desc = "[G]oto [I]mplementations" } },
     { "n", "<leader>D",  telescope.lsp_type_definitions,          { desc = "Type [D]efinitions" } },
     { "n", "<leader>ds", telescope.lsp_document_symbols,          { desc = "[D]ocument [S]ymbols" } },
-    { "n", "<leader>ws", telescope.lsp_dynamic_workspace_symbols, { desc = "[W]orkspace [S]ymbols" } },
+    -- { "n", "<leader>ws", telescope.lsp_dynamic_workspace_symbols, { desc = "[W]orkspace [S]ymbols" } },
     { "n", "<leader>ca", vim.lsp.buf.code_action,                 { desc = "List [C]ode [A]ctions" } },
     { "n", "<leader>lf", vim.lsp.buf.format,                      { desc = "[F]ormat" } },
+    { "n", "<leader>rn", vim.lsp.buf.rename,                      { desc = "[R]e[N]ame" } },
   }
 end
 

@@ -8,4 +8,7 @@ return {
   vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" }),
   vim.keymap.set("n", "<leader>q", "<cmd>q<CR>", { desc = "Quit" }),
   vim.keymap.set("n", "<leader>w", "<cmd>w<CR>", { desc = "Save" }),
+  vim.keymap.set("n", "<leader>M", "<cmd>Mason<CR>", { desc = "[M]ason" }),
+  vim.keymap.set("n", "<leader>L", "<cmd>Lazy<CR>", { desc = "[L]azy" }),
+  vim.keymap.set("n", "<leader>a", "<cmd>Alpha<CR>", { desc = "[A]lpha" }),
 }
