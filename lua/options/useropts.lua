@@ -3,12 +3,16 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 vim.g.have_nerd_font = true
 vim.opt.mouse = "a"
+vim.opt.timeoutlen = 300
+
 
 -- set up numbering
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.showmode = false
 vim.opt.inccommand = "split"
+-- vim.opt.list = true
+-- vim.opt.listchars = { tab = "» ", trail = "·", nbsp = '␣' }
 
 -- Setting up indentation
 -- vim.opt.autoindent = true
