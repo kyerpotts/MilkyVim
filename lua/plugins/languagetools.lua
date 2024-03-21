@@ -43,7 +43,16 @@ return {
 				ensure_installed = { "lua_ls", "jdtls", "lemminx", "pyright", "ruff_lsp", "clangd" },
 			})
 			local lspconfig = require("lspconfig")
-			lspconfig.lua_ls.setup({})
+			lspconfig.lua_ls.setup({
+				settings = {
+					Lua = {
+						completion = {
+							callSnippet = "Replace",
+						},
+						diagnostics = { disable = { "missing-fields" } },
+					},
+				},
+			})
 			lspconfig.clangd.setup({})
 			-- lspconfig.jdtls.setup({})
 			-- lspconfig.lemminx.setup({})
@@ -119,6 +128,7 @@ return {
 			--  into multiple repos for maintenance purposes.
 			"hrsh7th/cmp-nvim-lsp",
 			"hrsh7th/cmp-path",
+			"onsails/lspkind.nvim",
 		},
 		config = function()
 			local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -128,8 +138,38 @@ return {
 			local cmp = require("cmp")
 			local luasnip = require("luasnip")
 			luasnip.config.setup({})
+			-- define kind_icons array like above
+			local kind_icons = {
+				Text = "",
+				Method = "",
+				Function = "",
+				Constructor = "",
+				-- ... (remaining)
+			}
 
 			cmp.setup({
+				formatting = {
+					format = function(entry, vim_item)
+						local lspkind_ok, lspkind = pcall(require, "lspkind")
+						if not lspkind_ok then
+							-- From kind_icons array
+							vim_item.kind = string.format("%s %s", kind_icons[vim_item.kind], vim_item.kind) -- This concatenates the icons with the name of the item kind
+							-- Source
+							vim_item.menu = ({
+								buffer = "[Buffer]",
+								nvim_lsp = "[LSP]",
+								luasnip = "[LuaSnip]",
+								nvim_lua = "[Lua]",
+								latex_symbols = "[LaTeX]",
+							})[entry.source.name]
+							return vim_item
+						else
+							-- From lspkind
+							return lspkind.cmp_format()(entry, vim_item)
+						end
+					end,
+				},
+
 				snippet = {
 					expand = function(args)
 						luasnip.lsp_expand(args.body)

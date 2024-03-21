@@ -37,7 +37,7 @@ return {
           comments = true,
         },
         cmp = {
-          block_kind = true,
+          block_kind = false,
         },
         nvim_tree = {
           contrast = true,
