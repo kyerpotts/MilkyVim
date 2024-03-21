@@ -11,4 +11,5 @@ return {
   vim.keymap.set("n", "<leader>M", "<cmd>Mason<CR>", { desc = "[M]ason" }),
   vim.keymap.set("n", "<leader>L", "<cmd>Lazy<CR>", { desc = "[L]azy" }),
   vim.keymap.set("n", "<leader>a", "<cmd>Alpha<CR>", { desc = "[A]lpha" }),
+  vim.keymap.set("n", "<leader>bc", "<cmd>bnext<CR><cmd>bd #<CR>", { desc = "[B]uffer [C]lose" }),
 }
