@@ -4,6 +4,7 @@ vim.g.maplocalleader = " "
 vim.g.have_nerd_font = true
 vim.opt.mouse = "a"
 vim.opt.timeoutlen = 300
+vim.opt.updatetime = 300
 
 
 -- set up numbering
