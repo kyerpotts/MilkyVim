@@ -40,7 +40,7 @@ return {
 			})
 			require("mason").setup({})
 			require("mason-lspconfig").setup({
-				ensure_installed = { "lua_ls", "jdtls", "lemminx", "pyright", "ruff_lsp", "clangd" },
+				ensure_installed = { "lua_ls", "jdtls", "lemminx", "pyright", "clangd" },
 			})
 			local lspconfig = require("lspconfig")
 			lspconfig.lua_ls.setup({
@@ -54,9 +54,10 @@ return {
 				},
 			})
 			lspconfig.clangd.setup({})
-			-- lspconfig.jdtls.setup({})
-			-- lspconfig.lemminx.setup({})
+			lspconfig.jdtls.setup({})
+			lspconfig.lemminx.setup({})
 			lspconfig.pyright.setup({})
+			lspconfig.clangd.setup({})
 		end,
 	},
 	{
