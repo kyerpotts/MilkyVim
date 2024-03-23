@@ -6,7 +6,7 @@ return {
 
 		-- Dcument existing key chains
 		require("which-key").register({
-			["<leader>a"] = { name = "[A]lpha", _ = "which_key_ignore" },
+			["<leader>a"] = { name = "D[A]shboard", _ = "which_key_ignore" },
 			["<leader>b"] = { name = "[B]uffer", _ = "which_key_ignore" },
 			["<leader>c"] = { name = "[C]ode", _ = "which_key_ignore" },
 			["<leader>e"] = { name = "[E]xplorer", _ = "which_key_ignore" },
