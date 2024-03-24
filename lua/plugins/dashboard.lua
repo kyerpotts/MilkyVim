@@ -52,6 +52,14 @@ return {
 				button.key_format = "  %s"
 			end
 
+      -- Set highlights for headings
+      local colors = require("decay.core").get_colors("decayce")
+      vim.api.nvim_set_hl(0, "DashboardHeader", { fg = colors.brightcyan })
+      vim.api.nvim_set_hl(0, "DashboardFooter", { fg = colors.orange })
+      vim.api.nvim_set_hl(0, "DashboardIcon", { fg = colors.cyan })
+      vim.api.nvim_set_hl(0, "DashboardKey", { fg = colors.green })
+      vim.api.nvim_set_hl(0, "DashboardDesc", { fg = colors.magenta })
+
 			-- close Lazy and re-open when the dashboard is ready
 			if vim.o.filetype == "lazy" then
 				vim.cmd.close()
