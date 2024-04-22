@@ -40,7 +40,16 @@ return {
 			})
 			require("mason").setup({})
 			require("mason-lspconfig").setup({
-				ensure_installed = { "lua_ls", "jdtls", "lemminx", "pyright", "clangd" },
+				ensure_installed = {
+					"lua_ls",
+					"jdtls",
+					"lemminx",
+					"pyright",
+					"clangd",
+					"tsserver",
+					"tailwindcss",
+					"eslint",
+				},
 			})
 			local lspconfig = require("lspconfig")
 			lspconfig.lua_ls.setup({
@@ -58,6 +67,9 @@ return {
 			lspconfig.lemminx.setup({})
 			lspconfig.pyright.setup({})
 			lspconfig.clangd.setup({})
+			lspconfig.tsserver.setup({})
+			lspconfig.tailwindcss.setup({})
+			lspconfig.eslint.setup({})
 		end,
 	},
 	{
@@ -81,6 +93,7 @@ return {
 					"stylua",
 					"black",
 					"isort",
+          "prettierd",
 				},
 				automatic_installation = false,
 				handlers = {},
@@ -90,6 +103,7 @@ return {
 					require("null-ls").builtins.formatting.stylua,
 					require("null-ls").builtins.formatting.black,
 					require("null-ls").builtins.formatting.isort,
+					require("null-ls").builtins.formatting.prettierd,
 				},
 			})
 		end,
