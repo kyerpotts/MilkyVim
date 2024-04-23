@@ -48,6 +48,7 @@ return {
 					"clangd",
 					"tsserver",
 					"tailwindcss",
+					"cssls",
 					"eslint",
 				},
 			})
