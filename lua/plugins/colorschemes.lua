@@ -20,9 +20,25 @@ return {
 						indentscope_color = "",
 					},
 				},
+        -- vim.cmd.colorscheme('catppuccin')
 			})
 		end,
 	},
+	-- {
+	-- 	{
+	-- 		"maxmx03/fluoromachine.nvim",
+	-- 		config = function()
+	-- 			local fm = require("fluoromachine")
+	--
+	-- 			fm.setup({
+	-- 				glow = false,
+	-- 				theme = "fluoromachine",
+	-- 				transparent = "true",
+	-- 				brightness = 0.05,
+	-- 			})
+	-- 		end,
+	-- 	},
+	-- },
 	{
 		"decaycs/decay.nvim",
 		name = "decay",
