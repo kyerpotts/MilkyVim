@@ -62,6 +62,7 @@ return {
 					["@punctuation.bracket"] = { fg = colors.red },
 					Whitespace = { fg = colors.black },
 					MatchParen = { fg = colors.background, bg = colors.brightgreen },
+					Substitute = { fg = colors.yellow, bg = colors.background },
 					LspReferenceRead = { bg = colors.brightblack },
 					LspReferenceWrite = { bg = colors.brightblack },
 					LspReferenceText = { bg = colors.brightblack },
