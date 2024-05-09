@@ -77,6 +77,7 @@ return {
       lspconfig.html.setup({
         capabilities = capabilities,
       })
+      lspconfig.cssls.setup({})
     end,
   },
   {
