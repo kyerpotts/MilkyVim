@@ -3,6 +3,8 @@ return {
 	vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>"),
 	-- Move window focus
 	-- vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left window" }),
+	vim.keymap.set("n", "j", "gjzz"),
+	vim.keymap.set("n", "k", "gkzz"),
 	vim.keymap.set("n", "<C-h>", ":wincmd h<CR>", { desc = "Move focus to the left window" }),
 	vim.keymap.set("n", "<C-h>", ":TmuxNavigateLeft<CR>", { silent = true }),
 	vim.keymap.set("n", "<C-j>", ":wincmd j<CR>", { desc = "Move focus to the lower window" }),
