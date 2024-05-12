@@ -7,8 +7,9 @@ return {
       require("catppuccin").setup({
         flavour = "mocha",
         styles = {
-          commends = { "italic" },
+          comments = { "italic" },
           conditionals = { "italic" },
+          keywords = { "italic" },
         },
         integrations = {
           cmp = true,
@@ -49,7 +50,7 @@ return {
       require("decay").setup({
         style = style,
         italics = {
-          code = false,
+          code = true,
           comments = true,
         },
         cmp = {

@@ -36,7 +36,7 @@ vim.opt.splitright = true
 
 vim.opt.clipboard = "unnamedplus"
 
--- vim.opt.scrolloff = 20
+vim.opt.scrolloff = 999
 
 -- Change visual block mode to allow longer selections
 vim.opt.virtualedit = "block"
