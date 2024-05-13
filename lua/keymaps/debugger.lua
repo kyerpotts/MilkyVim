@@ -2,15 +2,15 @@ return {
 	vim.keymap.set("n", "<leader>dc", function()
 		require("dap").continue()
 	end, { desc = "[C]ontinue (Start)" }),
-	vim.keymap.set("n", "<leader>dso", function()
+	vim.keymap.set("n", "<leader>do", function()
 		require("dap").step_over()
-	end, { desc = "[S]tep [O]ver" }),
-	vim.keymap.set("n", "<leader>dsi", function()
+	end, { desc = "Step [O]ver" }),
+	vim.keymap.set("n", "<leader>di", function()
 		require("dap").step_into()
-	end, { desc = "[S]tep [I]nto" }),
-	vim.keymap.set("n", "<leader>dst", function()
+	end, { desc = "Step [I]nto" }),
+	vim.keymap.set("n", "<leader>dt", function()
 		require("dap").step_out()
-	end, { desc = "[S]tep Ou[T]" }),
+	end, { desc = "Step Ou[T]" }),
 	vim.keymap.set("n", "<Leader>db", function()
 		require("dap").toggle_breakpoint()
 	end, { desc = "[B]reakpoint" }),
