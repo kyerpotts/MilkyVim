@@ -4,4 +4,6 @@ return {
 	require("keymaps.neo-tree"),
 	require("keymaps.git"),
 	require("keymaps.harpoon"),
+	require("keymaps.debugger"),
+	require("keymaps.vim-test"),
 }

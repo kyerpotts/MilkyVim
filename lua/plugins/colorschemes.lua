@@ -64,7 +64,7 @@ return {
           Whitespace = { fg = colors.black },
           MatchParen = { fg = colors.background, bg = colors.brightgreen },
           Substitute = { fg = colors.yellow, bg = colors.background },
-          Nontext = { fg = colors.brightblack},
+          Nontext = { fg = colors.brightblack },
           LspReferenceRead = { bg = colors.brightblack },
           LspReferenceWrite = { bg = colors.brightblack },
           LspReferenceText = { bg = colors.brightblack },

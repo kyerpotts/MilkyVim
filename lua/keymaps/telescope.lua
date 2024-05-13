@@ -11,6 +11,7 @@ return {
 	vim.keymap.set("n", "<leader>fr", builtin.resume, { desc = "[F]ind Resume" }),
 	vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "[F]ind [H]elp" }),
 	vim.keymap.set("n", "<leader>ft", builtin.builtin, { desc = "[F]ind [T]elescope" }),
+  vim.keymap.set("n", "<leader>fd", "<cmd>TodoTelescope<cr>", { desc = "[F]ind To[D]o's" }),
 	vim.keymap.set("n", "<leader>fb", function()
 		builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
 			previewer = false,
@@ -27,5 +28,4 @@ return {
 			prompt_title = "Live Grep in Open Files",
 		})
 	end, { desc = "[F]ind [/] in Open Files" }),
-	vim.keymap.set("n", "<leader>dt", "<cmd>TodoTelescope<cr>", { desc = "To[D]o's [T]elescope" }),
 }
