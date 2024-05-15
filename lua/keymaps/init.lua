@@ -5,5 +5,5 @@ return {
 	require("keymaps.git"),
 	require("keymaps.harpoon"),
 	require("keymaps.debugger"),
-	require("keymaps.vim-test"),
+	require("keymaps.trouble"),
 }
