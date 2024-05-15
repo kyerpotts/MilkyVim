@@ -3,6 +3,7 @@ return {
 	vim.keymap.set("n", "<leader><leader>", builtin.buffers, { desc = "[ ] Find Buffers" }),
 	vim.keymap.set("n", "<leader>gf", builtin.git_files, { desc = "[G]it [F]iles" }),
 	vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "[F]ind [F]iles" }),
+  vim.keymap.set("n", "<leader>fq", builtin.quickfix, { desc = "[F]ind [Q]uickfix" }),
 	vim.keymap.set("n", "<leader>fk", builtin.keymaps, { desc = "[F]ind [K]eymaps" }),
 	vim.keymap.set("n", "<leader>fd", builtin.diagnostics, { desc = "[F]ind [D]iagnostics" }),
 	vim.keymap.set("n", "<leader>fw", builtin.grep_string, { desc = "[F]ind current [W]ord" }),
@@ -11,7 +12,7 @@ return {
 	vim.keymap.set("n", "<leader>fr", builtin.resume, { desc = "[F]ind Resume" }),
 	vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "[F]ind [H]elp" }),
 	vim.keymap.set("n", "<leader>ft", builtin.builtin, { desc = "[F]ind [T]elescope" }),
-  vim.keymap.set("n", "<leader>fd", "<cmd>TodoTelescope<cr>", { desc = "[F]ind To[D]o's" }),
+  vim.keymap.set("n", "<leader>fo", "<cmd>TodoTelescope<cr>", { desc = "[F]ind T[O]do's" }),
 	vim.keymap.set("n", "<leader>fb", function()
 		builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
 			previewer = false,
