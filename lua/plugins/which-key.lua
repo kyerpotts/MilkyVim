@@ -19,6 +19,7 @@ return {
 			["<leader>M"] = { name = "[M]ason", _ = "which_key_ignore" },
 			["<leader>r"] = { name = "[R]ename", _ = "which_key_ignore" },
 			["<leader>t"] = { name = "[T]est", _ = "which_key_ignore" },
+			["<leader>x"] = { name = "[X]trouble", _ = "which_key_ignore" },
 		})
 	end,
 }
