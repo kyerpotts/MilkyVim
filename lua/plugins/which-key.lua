@@ -14,6 +14,7 @@ return {
 			["<leader>f"] = { name = "[F]ind", _ = "which_key_ignore" },
 			["<leader>g"] = { name = "[G]it", _ = "which_key_ignore" },
 			["<leader>h"] = { name = "[H]arpoon", _ = "which_key_ignore" },
+			["<leader>k"] = { name = "Leet[K]ode", _ = "which_key_ignore" },
 			["<leader>l"] = { name = "[L]anguage Tools", _ = "which_key_ignore" },
 			["<leader>L"] = { name = "[L]azy", _ = "which_key_ignore" },
 			["<leader>M"] = { name = "[M]ason", _ = "which_key_ignore" },

@@ -6,4 +6,5 @@ return {
 	require("keymaps.harpoon"),
 	require("keymaps.debugger"),
 	require("keymaps.trouble"),
+	require("keymaps.leetcode"),
 }

@@ -14,6 +14,7 @@ function keybinds.get_bindings()
 		{ "n", "<leader>ld", telescope.lsp_type_definitions, { desc = "Type [D]efinitions" } },
 		{ "n", "<leader>lf", vim.lsp.buf.format, { desc = "[F]ormat" } },
 		{ "n", "<leader>lr", vim.lsp.buf.rename, { desc = "[R]ename" } },
+		{ "n", "<leader>li",function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled()) end, { desc = "[I]nlay Hint" } },
 	}
 end
 

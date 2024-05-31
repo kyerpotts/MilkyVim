@@ -115,7 +115,7 @@ return {
         ensure_installed = {
           "lua_ls",
           "lemminx",
-          "pyright",
+          "basedpyright",
           "clangd",
           "tsserver",
           "tailwindcss",
@@ -126,8 +126,8 @@ return {
         },
       })
       local lspconfig = require("lspconfig")
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities.textDocument.completion.completionItem.snippetSupport = true
+      local lsp_capabilities = vim.lsp.protocol.make_client_capabilities()
+      lsp_capabilities.textDocument.completion.completionItem.snippetSupport = true
       lspconfig.lua_ls.setup({
         settings = {
           Lua = {
@@ -135,6 +135,7 @@ return {
               callSnippet = "Replace",
             },
             diagnostics = { disable = { "missing-fields" } },
+            hint = true,
           },
         },
       })
@@ -151,18 +152,73 @@ return {
                 },
               },
             },
+            inlayHints = {
+              parameterNames = {
+                enabled = "all",
+                exclusions = { "this" },
+              },
+            },
+          },
+        },
+        -- capabilities = lsp_capabilities,
+      })
+      lspconfig.clangd.setup({
+        settings = {
+          clangd = {
+            InlayHints = {
+              Designators = true,
+              Enabled = true,
+              ParameterNames = true,
+              DeducedTypes = true,
+            },
+            fallbackFlags = { "-std=c++20" },
           },
         },
       })
-      lspconfig.clangd.setup({})
       lspconfig.lemminx.setup({})
-      lspconfig.pyright.setup({})
-      lspconfig.clangd.setup({})
-      lspconfig.tsserver.setup({})
+      lspconfig.basedpyright.setup({
+        settings = {
+          basedpyright = {
+            analysis = {
+              autoSearchPaths = true,
+              diagnosticMode = "openFilesOnly",
+              useLibraryCodeForTypes = true,
+            },
+          },
+        },
+      })
+      lspconfig.tsserver.setup({
+        settings = {
+          typescript = {
+            inlayHints = {
+              includeInlayParameterNameHints = "all",
+              includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+              includeInlayFunctionParameterTypeHints = true,
+              includeInlayVariableTypeHints = true,
+              includeInlayVariableTypeHintsWhenTypeMatchesName = true,
+              includeInlayPropertyDeclarationTypeHints = true,
+              includeInlayFunctionLikeReturnTypeHints = true,
+              includeInlayEnumMemberValueHints = true,
+            },
+          },
+          javascript = {
+            inlayHints = {
+              includeInlayParameterNameHints = "all",
+              includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+              includeInlayFunctionParameterTypeHints = true,
+              includeInlayVariableTypeHints = true,
+              includeInlayVariableTypeHintsWhenTypeMatchesName = true,
+              includeInlayPropertyDeclarationTypeHints = true,
+              includeInlayFunctionLikeReturnTypeHints = true,
+              includeInlayEnumMemberValueHints = true,
+            },
+          },
+        },
+      })
       lspconfig.tailwindcss.setup({})
       lspconfig.eslint.setup({})
       lspconfig.html.setup({
-        capabilities = capabilities,
+        capabilities = lsp_capabilities,
       })
       lspconfig.cssls.setup({})
       lspconfig.bashls.setup({})
@@ -191,7 +247,7 @@ return {
           "isort",
           "prettierd",
           "google-java-format",
-          "beautysh",
+          -- "beautysh",
         },
         automatic_installation = false,
         handlers = {},
@@ -203,7 +259,7 @@ return {
           require("null-ls").builtins.formatting.isort,
           require("null-ls").builtins.formatting.prettierd,
           require("null-ls").builtins.formatting.google_java_format,
-          require("null-ls").builtins.formatting.beautysh,
+          -- require("null-ls").builtins.formatting.beautysh,
         },
       })
     end,
