@@ -13,6 +13,8 @@ return {
 	},
 	opts = {
 		-- configuration goes here
-    lang = {"csharp"}
+		---@type lc.lang
+		lang = "java",
+		-- lang = "csharp",
 	},
 }

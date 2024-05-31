@@ -1,414 +1,427 @@
 return {
-  {
-    "nvim-java/nvim-java",
-    dependencies = {
-      "nvim-java/lua-async-await",
-      "nvim-java/nvim-java-refactor",
-      "nvim-java/nvim-java-core",
-      "nvim-java/nvim-java-test",
-      "nvim-java/nvim-java-dap",
-      "MunifTanjim/nui.nvim",
-      "neovim/nvim-lspconfig",
-      "mfussenegger/nvim-dap",
-      {
-        "williamboman/mason.nvim",
-        opts = {
-          registries = {
-            "github:nvim-java/mason-registry",
-            "github:mason-org/mason-registry",
-          },
-        },
-      },
-    },
-  },
-  {
-    "neovim/nvim-lspconfig",
-    dependencies = {
-      "williamboman/mason.nvim",
-      "williamboman/mason-lspconfig.nvim",
-      --"WhoIsSethDaniel/mason-tool-installer.nvim.nvim",
-      { "folke/neodev.nvim", opts = { library = { plugins = { "nvim-dap-ui" }, types = true } } },
-      { "j-hui/fidget.nvim", opts = {} },
-    },
-    config = function()
-      vim.api.nvim_create_autocmd("LspAttach", {
-        group = vim.api.nvim_create_augroup("milky-lsp-attach", { clear = true }),
-        callback = function(event)
-          -- Mapping hotkeys within the buffer the LSP is attached to
-          local map = function(mode, keys, func, opts)
-            opts = vim.tbl_extend("force", opts, { buffer = event.buf })
-            vim.keymap.set(mode, keys, func, opts)
-          end
-          local lspkeymaps = require("keymaps.lsp")
-          local bindings = lspkeymaps.get_bindings()
-          for _, bind in ipairs(bindings) do
-            local mode, keys, func, opts = unpack(bind)
-            map(mode, keys, func, opts)
-          end
+	{
+		"nvim-java/nvim-java",
+		dependencies = {
+			"nvim-java/lua-async-await",
+			"nvim-java/nvim-java-refactor",
+			"nvim-java/nvim-java-core",
+			"nvim-java/nvim-java-test",
+			"nvim-java/nvim-java-dap",
+			"MunifTanjim/nui.nvim",
+			"neovim/nvim-lspconfig",
+			"mfussenegger/nvim-dap",
+			{
+				"williamboman/mason.nvim",
+				opts = {
+					registries = {
+						"github:nvim-java/mason-registry",
+						"github:mason-org/mason-registry",
+					},
+				},
+			},
+		},
+	},
+	{
 
-          local client = vim.lsp.get_client_by_id(event.data.client_id)
-          if client and client.server_capabilities.documentHighlightProvider then
-            vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-              buffer = event.buf,
-              callback = vim.lsp.buf.document_highlight,
-            })
+		"iabdelkareem/csharp.nvim",
+		dependencies = {
+			"williamboman/mason.nvim", -- Required, automatically installs omnisharp
+			"mfussenegger/nvim-dap",
+			"Tastyep/structlog.nvim", -- Optional, but highly recommended for debugging
+		},
+		config = function()
+			require("mason").setup() -- Mason setup must run before csharp
+			require("csharp").setup()
+		end,
+	},
+	{
+		"neovim/nvim-lspconfig",
+		dependencies = {
+			"williamboman/mason.nvim",
+			"williamboman/mason-lspconfig.nvim",
+			--"WhoIsSethDaniel/mason-tool-installer.nvim.nvim",
+			{ "folke/neodev.nvim", opts = { library = { plugins = { "nvim-dap-ui" }, types = true } } },
+			{ "j-hui/fidget.nvim", opts = {} },
+		},
+		config = function()
+			vim.api.nvim_create_autocmd("LspAttach", {
+				group = vim.api.nvim_create_augroup("milky-lsp-attach", { clear = true }),
+				callback = function(event)
+					-- Mapping hotkeys within the buffer the LSP is attached to
+					local map = function(mode, keys, func, opts)
+						opts = vim.tbl_extend("force", opts, { buffer = event.buf })
+						vim.keymap.set(mode, keys, func, opts)
+					end
+					local lspkeymaps = require("keymaps.lsp")
+					local bindings = lspkeymaps.get_bindings()
+					for _, bind in ipairs(bindings) do
+						local mode, keys, func, opts = unpack(bind)
+						map(mode, keys, func, opts)
+					end
 
-            vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
-              buffer = event.buf,
-              callback = vim.lsp.buf.clear_references,
-            })
-          end
+					local client = vim.lsp.get_client_by_id(event.data.client_id)
+					if client and client.server_capabilities.documentHighlightProvider then
+						vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+							buffer = event.buf,
+							callback = vim.lsp.buf.document_highlight,
+						})
 
-          -- Function to check if a floating dialog exists and if not
-          -- then check for diagnostics under the cursor
-          function OpenDiagnosticIfNoFloat()
-            for _, winid in pairs(vim.api.nvim_tabpage_list_wins(0)) do
-              if vim.api.nvim_win_get_config(winid).zindex then
-                vim.diagnostic.config({ virtual_text = true })
-                return
-              end
-            end
-            -- THIS IS FOR BUILTIN LSP
-            vim.diagnostic.config({ virtual_text = false })
-            vim.diagnostic.open_float(nil, {
-              scope = "cursor",
-              focusable = false,
-              border = "rounded",
-              source = "always",
-              prefix = " ",
-              close_events = {
-                "CursorMoved",
-                "CursorMovedI",
-                "BufHidden",
-                "InsertCharPre",
-                "WinLeave",
-              },
-            })
-          end
+						vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+							buffer = event.buf,
+							callback = vim.lsp.buf.clear_references,
+						})
+					end
 
-          -- Show diagnostics under the cursor when holding position
-          vim.api.nvim_create_augroup("lsp_diagnostics_hold", { clear = true })
-          vim.api.nvim_create_autocmd({ "CursorHold" }, {
-            pattern = "*",
-            command = "lua OpenDiagnosticIfNoFloat()",
-            group = "lsp_diagnostics_hold",
-          })
-          --
-          -- vim.api.nvim_create_autocmd("CursorHold", {
-          --   buffer = event.buf,
-          --   callback = function()
-          --     local opts = {
-          --       focusable = false,
-          --       close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
-          --       border = "rounded",
-          --       source = "always",
-          --       prefix = " ",
-          --       scope = "cursor",
-          --     }
-          --     vim.diagnostic.open_float(nil, opts)
-          --   end,
-          -- })
-        end,
-      })
-      require("mason").setup({})
-      require("mason-lspconfig").setup({
-        ensure_installed = {
-          "lua_ls",
-          "lemminx",
-          "basedpyright",
-          "clangd",
-          "tsserver",
-          "tailwindcss",
-          "cssls",
-          "eslint",
-          "html",
-          "bashls",
-        },
-      })
-      local lspconfig = require("lspconfig")
-      local lsp_capabilities = vim.lsp.protocol.make_client_capabilities()
-      lsp_capabilities.textDocument.completion.completionItem.snippetSupport = true
-      lspconfig.lua_ls.setup({
-        settings = {
-          Lua = {
-            completion = {
-              callSnippet = "Replace",
-            },
-            diagnostics = { disable = { "missing-fields" } },
-            hint = true,
-          },
-        },
-      })
-      require("java").setup()
-      require("lspconfig").jdtls.setup({
-        settings = {
-          java = {
-            configuration = {
-              runtimes = {
-                {
-                  name = "JavaSE-21",
-                  path = "/home/squidmilk/.sdkman/candidates/java/current/bin/java",
-                  default = true,
-                },
-              },
-            },
-            inlayHints = {
-              parameterNames = {
-                enabled = "all",
-                exclusions = { "this" },
-              },
-            },
-          },
-        },
-        -- capabilities = lsp_capabilities,
-      })
-      lspconfig.clangd.setup({
-        settings = {
-          clangd = {
-            InlayHints = {
-              Designators = true,
-              Enabled = true,
-              ParameterNames = true,
-              DeducedTypes = true,
-            },
-            fallbackFlags = { "-std=c++20" },
-          },
-        },
-      })
-      lspconfig.lemminx.setup({})
-      lspconfig.basedpyright.setup({
-        settings = {
-          basedpyright = {
-            analysis = {
-              autoSearchPaths = true,
-              diagnosticMode = "openFilesOnly",
-              useLibraryCodeForTypes = true,
-            },
-          },
-        },
-      })
-      lspconfig.tsserver.setup({
-        settings = {
-          typescript = {
-            inlayHints = {
-              includeInlayParameterNameHints = "all",
-              includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-              includeInlayFunctionParameterTypeHints = true,
-              includeInlayVariableTypeHints = true,
-              includeInlayVariableTypeHintsWhenTypeMatchesName = true,
-              includeInlayPropertyDeclarationTypeHints = true,
-              includeInlayFunctionLikeReturnTypeHints = true,
-              includeInlayEnumMemberValueHints = true,
-            },
-          },
-          javascript = {
-            inlayHints = {
-              includeInlayParameterNameHints = "all",
-              includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-              includeInlayFunctionParameterTypeHints = true,
-              includeInlayVariableTypeHints = true,
-              includeInlayVariableTypeHintsWhenTypeMatchesName = true,
-              includeInlayPropertyDeclarationTypeHints = true,
-              includeInlayFunctionLikeReturnTypeHints = true,
-              includeInlayEnumMemberValueHints = true,
-            },
-          },
-        },
-      })
-      lspconfig.tailwindcss.setup({})
-      lspconfig.eslint.setup({})
-      lspconfig.html.setup({
-        capabilities = lsp_capabilities,
-      })
-      lspconfig.cssls.setup({})
-      lspconfig.bashls.setup({})
-    end,
-  },
-  {
-    "linux-cultist/venv-selector.nvim",
-    opts = {},
-    keys = {
-      { "<leader>lv", "<cmd>VenvSelect<cr>", desc = "Select Python [V]irtual En[V]ironment" },
-    },
-  },
-  {
-    "jay-babu/mason-null-ls.nvim",
-    event = { "BufReadPre", "BufNewFile" },
-    dependencies = {
-      "williamboman/mason.nvim",
-      "nvimtools/none-ls.nvim",
-    },
-    config = function()
-      -- require("mason").setup()
-      require("mason-null-ls").setup({
-        ensure_installed = {
-          "stylua",
-          "black",
-          "isort",
-          "prettierd",
-          "google-java-format",
-          -- "beautysh",
-        },
-        automatic_installation = false,
-        handlers = {},
-      })
-      require("null-ls").setup({
-        sources = {
-          require("null-ls").builtins.formatting.stylua,
-          require("null-ls").builtins.formatting.black,
-          require("null-ls").builtins.formatting.isort,
-          require("null-ls").builtins.formatting.prettierd,
-          require("null-ls").builtins.formatting.google_java_format,
-          -- require("null-ls").builtins.formatting.beautysh,
-        },
-      })
-    end,
-  },
-  {
-    "hrsh7th/nvim-cmp",
-    event = "InsertEnter",
-    dependencies = {
-      -- Snippet Engine & its associated nvim-cmp source
-      {
-        "L3MON4D3/LuaSnip",
-        build = (function()
-          -- Build Step is needed for regex support in snippets.
-          -- This step is not supported in many windows environments.
-          -- Remove the below condition to re-enable on windows.
-          if vim.fn.has("win32") == 1 or vim.fn.executable("make") == 0 then
-            return
-          end
-          return "make install_jsregexp"
-        end)(),
-        dependencies = {
-          -- `friendly-snippets` contains a variety of premade snippets.
-          --    See the README about individual language/framework/plugin snippets:
-          --    https://github.com/rafamadriz/friendly-snippets
-          {
-            "rafamadriz/friendly-snippets",
-            config = function()
-              require("luasnip.loaders.from_vscode").lazy_load()
-            end,
-          },
-        },
-      },
-      "saadparwaiz1/cmp_luasnip",
+					-- Function to check if a floating dialog exists and if not
+					-- then check for diagnostics under the cursor
+					function OpenDiagnosticIfNoFloat()
+						for _, winid in pairs(vim.api.nvim_tabpage_list_wins(0)) do
+							if vim.api.nvim_win_get_config(winid).zindex then
+								vim.diagnostic.config({ virtual_text = true })
+								return
+							end
+						end
+						-- THIS IS FOR BUILTIN LSP
+						vim.diagnostic.config({ virtual_text = false })
+						vim.diagnostic.open_float(nil, {
+							scope = "cursor",
+							focusable = false,
+							border = "rounded",
+							source = "always",
+							prefix = " ",
+							close_events = {
+								"CursorMoved",
+								"CursorMovedI",
+								"BufHidden",
+								"InsertCharPre",
+								"WinLeave",
+							},
+						})
+					end
 
-      -- Adds other completion capabilities.
-      --  nvim-cmp does not ship with all sources by default. They are split
-      --  into multiple repos for maintenance purposes.
-      "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-path",
-      "onsails/lspkind.nvim",
-    },
-    config = function()
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
+					-- Show diagnostics under the cursor when holding position
+					vim.api.nvim_create_augroup("lsp_diagnostics_hold", { clear = true })
+					vim.api.nvim_create_autocmd({ "CursorHold" }, {
+						pattern = "*",
+						command = "lua OpenDiagnosticIfNoFloat()",
+						group = "lsp_diagnostics_hold",
+					})
+					--
+					-- vim.api.nvim_create_autocmd("CursorHold", {
+					--   buffer = event.buf,
+					--   callback = function()
+					--     local opts = {
+					--       focusable = false,
+					--       close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+					--       border = "rounded",
+					--       source = "always",
+					--       prefix = " ",
+					--       scope = "cursor",
+					--     }
+					--     vim.diagnostic.open_float(nil, opts)
+					--   end,
+					-- })
+				end,
+			})
+			require("mason").setup({})
+			require("mason-lspconfig").setup({
+				ensure_installed = {
+					"lua_ls",
+					"lemminx",
+					"basedpyright",
+					"clangd",
+					"tsserver",
+					"tailwindcss",
+					"cssls",
+					"eslint",
+					"html",
+					"bashls",
+				},
+			})
+			local lspconfig = require("lspconfig")
+			local lsp_capabilities = vim.lsp.protocol.make_client_capabilities()
+			lsp_capabilities.textDocument.completion.completionItem.snippetSupport = true
+			lspconfig.lua_ls.setup({
+				settings = {
+					Lua = {
+						completion = {
+							callSnippet = "Replace",
+						},
+						diagnostics = { disable = { "missing-fields" } },
+						hint = true,
+					},
+				},
+			})
+			require("java").setup()
+			require("lspconfig").jdtls.setup({
+				settings = {
+					java = {
+						configuration = {
+							runtimes = {
+								{
+									name = "JavaSE-21",
+									path = "/home/squidmilk/.sdkman/candidates/java/current/bin/java",
+									default = true,
+								},
+							},
+						},
+						inlayHints = {
+							parameterNames = {
+								enabled = "all",
+								exclusions = { "this" },
+							},
+						},
+					},
+				},
+				-- capabilities = lsp_capabilities,
+			})
+			lspconfig.clangd.setup({
+				settings = {
+					clangd = {
+						InlayHints = {
+							Designators = true,
+							Enabled = true,
+							ParameterNames = true,
+							DeducedTypes = true,
+						},
+						fallbackFlags = { "-std=c++20" },
+					},
+				},
+			})
+			lspconfig.lemminx.setup({})
+			lspconfig.basedpyright.setup({
+				settings = {
+					basedpyright = {
+						analysis = {
+							autoSearchPaths = true,
+							diagnosticMode = "openFilesOnly",
+							useLibraryCodeForTypes = true,
+						},
+					},
+				},
+			})
+			lspconfig.tsserver.setup({
+				settings = {
+					typescript = {
+						inlayHints = {
+							includeInlayParameterNameHints = "all",
+							includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+							includeInlayFunctionParameterTypeHints = true,
+							includeInlayVariableTypeHints = true,
+							includeInlayVariableTypeHintsWhenTypeMatchesName = true,
+							includeInlayPropertyDeclarationTypeHints = true,
+							includeInlayFunctionLikeReturnTypeHints = true,
+							includeInlayEnumMemberValueHints = true,
+						},
+					},
+					javascript = {
+						inlayHints = {
+							includeInlayParameterNameHints = "all",
+							includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+							includeInlayFunctionParameterTypeHints = true,
+							includeInlayVariableTypeHints = true,
+							includeInlayVariableTypeHintsWhenTypeMatchesName = true,
+							includeInlayPropertyDeclarationTypeHints = true,
+							includeInlayFunctionLikeReturnTypeHints = true,
+							includeInlayEnumMemberValueHints = true,
+						},
+					},
+				},
+			})
+			lspconfig.tailwindcss.setup({})
+			lspconfig.eslint.setup({})
+			lspconfig.html.setup({
+				capabilities = lsp_capabilities,
+			})
+			lspconfig.cssls.setup({})
+			lspconfig.bashls.setup({})
+		end,
+	},
+	{
+		"linux-cultist/venv-selector.nvim",
+		opts = {},
+		keys = {
+			{ "<leader>lv", "<cmd>VenvSelect<cr>", desc = "Select Python [V]irtual En[V]ironment" },
+		},
+	},
+	{
+		"jay-babu/mason-null-ls.nvim",
+		event = { "BufReadPre", "BufNewFile" },
+		dependencies = {
+			"williamboman/mason.nvim",
+			"nvimtools/none-ls.nvim",
+		},
+		config = function()
+			-- require("mason").setup()
+			require("mason-null-ls").setup({
+				ensure_installed = {
+					"stylua",
+					"black",
+					"isort",
+					"prettierd",
+					"google-java-format",
+					-- "beautysh",
+				},
+				automatic_installation = false,
+				handlers = {},
+			})
+			require("null-ls").setup({
+				sources = {
+					require("null-ls").builtins.formatting.stylua,
+					require("null-ls").builtins.formatting.black,
+					require("null-ls").builtins.formatting.isort,
+					require("null-ls").builtins.formatting.prettierd,
+					require("null-ls").builtins.formatting.google_java_format,
+					-- require("null-ls").builtins.formatting.beautysh,
+				},
+			})
+		end,
+	},
+	{
+		"hrsh7th/nvim-cmp",
+		event = "InsertEnter",
+		dependencies = {
+			-- Snippet Engine & its associated nvim-cmp source
+			{
+				"L3MON4D3/LuaSnip",
+				build = (function()
+					-- Build Step is needed for regex support in snippets.
+					-- This step is not supported in many windows environments.
+					-- Remove the below condition to re-enable on windows.
+					if vim.fn.has("win32") == 1 or vim.fn.executable("make") == 0 then
+						return
+					end
+					return "make install_jsregexp"
+				end)(),
+				dependencies = {
+					-- `friendly-snippets` contains a variety of premade snippets.
+					--    See the README about individual language/framework/plugin snippets:
+					--    https://github.com/rafamadriz/friendly-snippets
+					{
+						"rafamadriz/friendly-snippets",
+						config = function()
+							require("luasnip.loaders.from_vscode").lazy_load()
+						end,
+					},
+				},
+			},
+			"saadparwaiz1/cmp_luasnip",
 
-      -- See `:help cmp`
-      local cmp = require("cmp")
-      local luasnip = require("luasnip")
-      luasnip.config.setup({})
-      -- define kind_icons array like above
-      local kind_icons = {
-        Text = "",
-        Method = "",
-        Function = "",
-        Constructor = "",
-        -- ... (remaining)
-      }
+			-- Adds other completion capabilities.
+			--  nvim-cmp does not ship with all sources by default. They are split
+			--  into multiple repos for maintenance purposes.
+			"hrsh7th/cmp-nvim-lsp",
+			"hrsh7th/cmp-path",
+			"onsails/lspkind.nvim",
+		},
+		config = function()
+			local capabilities = vim.lsp.protocol.make_client_capabilities()
+			capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
 
-      cmp.setup({
-        formatting = {
-          format = function(entry, vim_item)
-            local lspkind_ok, lspkind = pcall(require, "lspkind")
-            if not lspkind_ok then
-              -- From kind_icons array
-              vim_item.kind = string.format("%s %s", kind_icons[vim_item.kind], vim_item.kind) -- This concatenates the icons with the name of the item kind
-              -- Source
-              vim_item.menu = ({
-                buffer = "[Buffer]",
-                nvim_lsp = "[LSP]",
-                luasnip = "[LuaSnip]",
-                nvim_lua = "[Lua]",
-                latex_symbols = "[LaTeX]",
-              })[entry.source.name]
-              return vim_item
-            else
-              -- From lspkind
-              return lspkind.cmp_format()(entry, vim_item)
-            end
-          end,
-        },
+			-- See `:help cmp`
+			local cmp = require("cmp")
+			local luasnip = require("luasnip")
+			luasnip.config.setup({})
+			-- define kind_icons array like above
+			local kind_icons = {
+				Text = "",
+				Method = "",
+				Function = "",
+				Constructor = "",
+				-- ... (remaining)
+			}
 
-        snippet = {
-          expand = function(args)
-            luasnip.lsp_expand(args.body)
-          end,
-        },
-        completion = { completeopt = "menu,menuone,noinsert" },
+			cmp.setup({
+				formatting = {
+					format = function(entry, vim_item)
+						local lspkind_ok, lspkind = pcall(require, "lspkind")
+						if not lspkind_ok then
+							-- From kind_icons array
+							vim_item.kind = string.format("%s %s", kind_icons[vim_item.kind], vim_item.kind) -- This concatenates the icons with the name of the item kind
+							-- Source
+							vim_item.menu = ({
+								buffer = "[Buffer]",
+								nvim_lsp = "[LSP]",
+								luasnip = "[LuaSnip]",
+								nvim_lua = "[Lua]",
+								latex_symbols = "[LaTeX]",
+							})[entry.source.name]
+							return vim_item
+						else
+							-- From lspkind
+							return lspkind.cmp_format()(entry, vim_item)
+						end
+					end,
+				},
 
-        -- For an understanding of why these mappings were
-        -- chosen, you will need to read `:help ins-completion`
-        --
-        -- No, but seriously. Please read `:help ins-completion`, it is really good!
-        mapping = cmp.mapping.preset.insert({
-          -- Select the [n]ext item
-          ["<C-n>"] = cmp.mapping.select_next_item(),
-          -- Select the [p]revious item
-          ["<C-p>"] = cmp.mapping.select_prev_item(),
-          -- Scroll the documentation window [b]ack / [f]orward
-          ["<C-b>"] = cmp.mapping.scroll_docs(-4),
-          ["<C-f>"] = cmp.mapping.scroll_docs(4),
+				snippet = {
+					expand = function(args)
+						luasnip.lsp_expand(args.body)
+					end,
+				},
+				completion = { completeopt = "menu,menuone,noinsert" },
 
-          -- Accept ([y]es) the completion.
-          --  This will auto-import if your LSP supports it.
-          --  This will expand snippets if the LSP sent a snippet.
-          ["<C-y>"] = cmp.mapping.confirm({ select = true }),
+				-- For an understanding of why these mappings were
+				-- chosen, you will need to read `:help ins-completion`
+				--
+				-- No, but seriously. Please read `:help ins-completion`, it is really good!
+				mapping = cmp.mapping.preset.insert({
+					-- Select the [n]ext item
+					["<C-n>"] = cmp.mapping.select_next_item(),
+					-- Select the [p]revious item
+					["<C-p>"] = cmp.mapping.select_prev_item(),
+					-- Scroll the documentation window [b]ack / [f]orward
+					["<C-b>"] = cmp.mapping.scroll_docs(-4),
+					["<C-f>"] = cmp.mapping.scroll_docs(4),
 
-          -- Manually trigger a completion from nvim-cmp.
-          --  Generally you don't need this, because nvim-cmp will display
-          --  completions whenever it has completion options available.
-          ["<C-Space>"] = cmp.mapping.complete({}),
+					-- Accept ([y]es) the completion.
+					--  This will auto-import if your LSP supports it.
+					--  This will expand snippets if the LSP sent a snippet.
+					["<C-y>"] = cmp.mapping.confirm({ select = true }),
 
-          -- Think of <c-l> as moving to the right of your snippet expansion.
-          --  So if you have a snippet that's like:
-          --  function $name($args)
-          --    $body
-          --  end
-          --
-          -- <c-l> will move you to the right of each of the expansion locations.
-          -- <c-h> is similar, except moving you backwards.
-          ["<C-l>"] = cmp.mapping(function()
-            if luasnip.expand_or_locally_jumpable() then
-              luasnip.expand_or_jump()
-            end
-          end, { "i", "s" }),
-          ["<C-h>"] = cmp.mapping(function()
-            if luasnip.locally_jumpable(-1) then
-              luasnip.jump(-1)
-            end
-          end, { "i", "s" }),
-          ["<C-j>"] = cmp.mapping(function()
-            if luasnip.choice_active() then
-              luasnip.change_choice(1)
-            end
-          end, { "i", "s" }),
-          -- TODO: check whether this needs to be fixed at a later date
-          -- vim.keymap.set({ "i", "s" }, "<C-E>", function()
-          --   if luasnip.choice_active() then
-          --     luasnip.change_choice(1)
-          --   end
-          -- end, { silent = true }),
-          -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
-          --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
-        }),
-        sources = {
-          { name = "nvim_lsp" },
-          { name = "luasnip" },
-          { name = "path" },
-        },
-      })
-    end,
-  },
+					-- Manually trigger a completion from nvim-cmp.
+					--  Generally you don't need this, because nvim-cmp will display
+					--  completions whenever it has completion options available.
+					["<C-Space>"] = cmp.mapping.complete({}),
+
+					-- Think of <c-l> as moving to the right of your snippet expansion.
+					--  So if you have a snippet that's like:
+					--  function $name($args)
+					--    $body
+					--  end
+					--
+					-- <c-l> will move you to the right of each of the expansion locations.
+					-- <c-h> is similar, except moving you backwards.
+					["<C-l>"] = cmp.mapping(function()
+						if luasnip.expand_or_locally_jumpable() then
+							luasnip.expand_or_jump()
+						end
+					end, { "i", "s" }),
+					["<C-h>"] = cmp.mapping(function()
+						if luasnip.locally_jumpable(-1) then
+							luasnip.jump(-1)
+						end
+					end, { "i", "s" }),
+					["<C-j>"] = cmp.mapping(function()
+						if luasnip.choice_active() then
+							luasnip.change_choice(1)
+						end
+					end, { "i", "s" }),
+					-- TODO: check whether this needs to be fixed at a later date
+					-- vim.keymap.set({ "i", "s" }, "<C-E>", function()
+					--   if luasnip.choice_active() then
+					--     luasnip.change_choice(1)
+					--   end
+					-- end, { silent = true }),
+					-- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
+					--    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
+				}),
+				sources = {
+					{ name = "nvim_lsp" },
+					{ name = "luasnip" },
+					{ name = "path" },
+				},
+			})
+		end,
+	},
 }
