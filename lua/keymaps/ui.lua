@@ -8,4 +8,19 @@ return {
 			vim.notify("Twilight Off", vim.log.INFO)
 		end
 	end, { desc = "[T]wilight" }),
+	vim.keymap.set("n", "<leader>uz", function()
+		if not require("zen-mode").is_open then
+			require("zen-mode").toggle({})
+			vim.notify("zenmode on", vim.log.info)
+		else
+			require("zen-mode").toggle({})
+			vim.notify("zenmode off", vim.log.info)
+		end
+	end, { desc = "[Z]enmode" }),
+	vim.api.nvim_set_keymap(
+		"n",
+		"<leader>un",
+		"<cmd>Noice dismiss<cr>",
+		{ desc = "Dismiss [N]otifications", noremap = true }
+	),
 }
