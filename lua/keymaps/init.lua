@@ -7,4 +7,5 @@ return {
 	require("keymaps.debugger"),
 	require("keymaps.trouble"),
 	require("keymaps.leetcode"),
+	require("keymaps.ui"),
 }
