@@ -6,7 +6,6 @@ vim.opt.mouse = "a"
 vim.opt.timeoutlen = 300
 vim.opt.updatetime = 300
 
-
 -- set up numbering
 vim.opt.number = true
 vim.opt.relativenumber = true
@@ -53,6 +52,8 @@ vim.opt.swapfile = false
 vim.opt.title = true
 vim.opt.titlestring = "Neovim - %t"
 vim.opt.undofile = true
+
+vim.o.conceallevel = 2
 
 vim.lsp.inlay_hint.enable(true)
 
