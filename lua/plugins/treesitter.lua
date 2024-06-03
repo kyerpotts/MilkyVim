@@ -27,6 +27,8 @@ return {
         "bash",
         "html",
         "css",
+        "markdown",
+        "markdown_inline",
       },
       auto_install = true,
       highlight = {

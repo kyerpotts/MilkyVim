@@ -8,4 +8,5 @@ return {
 	require("keymaps.trouble"),
 	require("keymaps.leetcode"),
 	require("keymaps.ui"),
+	require("keymaps.obsidian"),
 }

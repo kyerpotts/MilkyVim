@@ -18,6 +18,7 @@ return {
 			["<leader>l"] = { name = "[L]anguage Tools", _ = "which_key_ignore" },
 			["<leader>L"] = { name = "[L]azy", _ = "which_key_ignore" },
 			["<leader>M"] = { name = "[M]ason", _ = "which_key_ignore" },
+			["<leader>o"] = { name = "[O]bsidian", _ = "which_key_ignore" },
 			["<leader>r"] = { name = "[R]ename", _ = "which_key_ignore" },
 			["<leader>t"] = { name = "[T]est", _ = "which_key_ignore" },
 			["<leader>u"] = { name = "[U]I", _ = "which_key_ignore" },

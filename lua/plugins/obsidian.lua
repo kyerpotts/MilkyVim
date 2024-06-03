@@ -15,7 +15,12 @@ return {
 					path = "/home/squidmilk/Documents/Braincage",
 				},
 			},
+			templates = {
+				folder = "007 Templates",
+				date_format = "%Y-%m-%d",
+				time_format = "%H:%M",
+			},
 		})
 	end,
-  -- TODO: configure obsidian
+	-- TODO: configure obsidian
 }
