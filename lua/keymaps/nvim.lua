@@ -28,7 +28,7 @@ return {
   vim.keymap.set("n", "<leader>M", "<cmd>Mason<CR>", { desc = "[M]ason" }),
   vim.keymap.set("n", "<leader>L", "<cmd>Lazy<CR>", { desc = "[L]azy" }),
   vim.keymap.set("n", "<leader>a", "<cmd>Dashboard<CR>", { desc = "D[A]shboard" }),
-  vim.keymap.set("n", "<leader>bc", "<cmd>bnext<CR><cmd>bd #<CR>", { desc = "[B]uffer [C]lose" }),
+  vim.keymap.set("n", "<leader>bc", "<cmd>bd<CR>", { desc = "[B]uffer [C]lose" }),
   vim.keymap.set("n", "<A-j>", "<cmd>m .+1<cr>==", { desc = "Move down" }),
   vim.keymap.set("n", "<A-k>", "<cmd>m .-2<cr>==", { desc = "Move up" }),
   vim.keymap.set("i", "<A-j>", "<esc><cmd>m .+1<cr>==gi", { desc = "Move down" }),
