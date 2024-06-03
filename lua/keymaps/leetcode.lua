@@ -1,4 +1,5 @@
 return {
+	vim.keymap.set("n", "<leader>kg", "<cmd>Leet<cr>", { desc = "[G]o" }),
 	vim.keymap.set("n", "<leader>km", "<cmd>Leet menu<cr>", { desc = "[M]enu" }),
 	vim.keymap.set("n", "<leader>kx", "<cmd>Leet exit<cr>", { desc = "E[X]it" }),
 	vim.keymap.set("n", "<leader>kt", "<cmd>Leet tabs<cr>", { desc = "[T]abs" }),
