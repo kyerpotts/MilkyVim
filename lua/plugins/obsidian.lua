@@ -20,6 +20,10 @@ return {
 				date_format = "%Y-%m-%d",
 				time_format = "%H:%M",
 			},
+      daily_notes = {
+        folder = "003 Daily Notes",
+        template = "Daily Notes Template"
+      }
 		})
 	end,
 	-- TODO: configure obsidian
