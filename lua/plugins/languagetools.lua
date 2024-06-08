@@ -160,7 +160,7 @@ return {
 							runtimes = {
 								{
 									name = "JavaSE-21",
-									path = "/home/squidmilk/.sdkman/candidates/java/current/bin/java",
+                  path = "/home/squidmilk/.sdkman/candidates/java/current",
 									default = true,
 								},
 							},
