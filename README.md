@@ -30,7 +30,8 @@ To install this Neovim distribution, follow these steps:
 Clone the Repository:
 
 bash
-`    git clone https://github.com/yourusername/neovim-config.git ~/.config/nvim`
+`
+        git clone https://github.com/yourusername/neovim-config.git ~/.config/nvim`
 
 Install Dependencies:
 
