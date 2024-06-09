@@ -1,4 +1,5 @@
 return {
+	-- {"mfussenegger/nvim-jdtls"},
 	{
 		"nvim-java/nvim-java",
 		dependencies = {
@@ -22,17 +23,12 @@ return {
 		},
 	},
 	{
-
 		"iabdelkareem/csharp.nvim",
 		dependencies = {
 			"williamboman/mason.nvim", -- Required, automatically installs omnisharp
 			"mfussenegger/nvim-dap",
 			"Tastyep/structlog.nvim", -- Optional, but highly recommended for debugging
 		},
-		config = function()
-			require("mason").setup() -- Mason setup must run before csharp
-			require("csharp").setup()
-		end,
 	},
 	{
 		"neovim/nvim-lspconfig",
@@ -123,7 +119,7 @@ return {
 					-- })
 				end,
 			})
-			require("mason").setup({})
+			require("mason").setup({}) -- Mason setup must run before csharp
 			require("mason-lspconfig").setup({
 				ensure_installed = {
 					"lua_ls",
@@ -141,6 +137,11 @@ return {
 			local lspconfig = require("lspconfig")
 			local lsp_capabilities = vim.lsp.protocol.make_client_capabilities()
 			lsp_capabilities.textDocument.completion.completionItem.snippetSupport = true
+			require("csharp").setup({
+				lsp = {
+					capabilities = lsp_capabilities,
+				},
+			})
 			lspconfig.lua_ls.setup({
 				settings = {
 					Lua = {
@@ -152,15 +153,19 @@ return {
 					},
 				},
 			})
-			require("java").setup()
+			require("java").setup({
+				jdk = {
+					auto_install = false,
+				},
+			})
 			require("lspconfig").jdtls.setup({
 				settings = {
 					java = {
 						configuration = {
 							runtimes = {
 								{
-									name = "JavaSE-21",
-                  path = "/home/squidmilk/.sdkman/candidates/java/current",
+									name = "JavaSE-17",
+									path = "/home/squidmilk/.sdkman/candidates/java/current/",
 									default = true,
 								},
 							},
