@@ -1,3 +1,5 @@
+# MILKYVIM
+
 Introduction
 
 Welcome to my MilkyVim! This project aims to simplify the setup of language servers (LSPs) and debuggers for popular programming languages, enabling new users to get up and running with a full IDE-like Neovim experience with minimal downtime.
