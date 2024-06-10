@@ -37,4 +37,7 @@ return {
 		local widgets = require("dap.ui.widgets")
 		widgets.centered_float(widgets.scopes)
 	end, { desc = "[S]copes" }),
+	vim.keymap.set("n", "<Leader>du", function()
+		require("dapui").toggle()
+	end, { desc = "[U]I Toggle" }),
 }
