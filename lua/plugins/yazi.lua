@@ -1,0 +1,42 @@
+-- TODO: I need to fix this code so that the quickfix list using trouble is toggled
+-- return {
+-- 	"mikavilpas/yazi.nvim",
+-- 	dependencies = {
+-- 		"nvim-lua/plenary.nvim",
+-- 		{
+-- 			"ThePrimeagen/harpoon",
+-- 			branch = "harpoon2",
+-- 			requires = { { "nvim-lua/plenary.nvim" } },
+-- 		},
+-- 	},
+-- 	event = "VeryLazy",
+-- 	keys = {
+-- 		-- 👇 in this section, choose your own keymappings!
+-- 		{
+-- 			"<leader>-",
+-- 			function()
+-- 				require("yazi").yazi()
+-- 			end,
+-- 			desc = "Open the file manager",
+-- 		},
+-- 		{
+-- 			-- Open in the current working directory
+-- 			"<leader>+",
+-- 			function()
+-- 				require("yazi").yazi(nil, vim.fn.getcwd())
+-- 			end,
+-- 			desc = "Open the file manager in nvim's working directory",
+-- 		},
+-- 	},
+-- 	opts = {
+-- 		open_for_directories = true,
+-- 		yazi_opened_multiple_files = function(chosen_files, config, state)
+--       local cf = chosen_files
+--       local sstate = state
+--       local cfg = config
+--       vim.notify("Testing", vim.log.levels.INFO)
+--       require("harpoon").list():add(cf)
+--     end,
+-- 	},
+-- }
+return {}
