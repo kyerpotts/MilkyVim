@@ -47,12 +47,12 @@ function keybinds.get_bindings()
       telescope.lsp_type_definitions,
       { desc = "Type [D]efinitions" },
     },
-    {
-      "n",
-      "<leader>lf",
-      vim.lsp.buf.format,
-      { desc = "[F]ormat" },
-    },
+    -- {
+    --   "n",
+    --   "<leader>lf",
+    --   vim.lsp.buf.format,
+    --   { desc = "[F]ormat" },
+    -- },
     {
       "n",
       "<leader>lr",

@@ -10,6 +10,8 @@ return {
 
   vim.keymap.set("n", "B", "^", { desc = "First character in line" }),
   vim.keymap.set("n", "E", "$", { desc = "Last character in line" }),
+  vim.keymap.set("v", "B", "^", { desc = "First character in line" }),
+  vim.keymap.set("v", "E", "$", { desc = "Last character in line" }),
   -- vim.keymap.set("n", "<C-u>", "<C-u>zz"),
   -- vim.keymap.set("n", "<C-d>", "<C-d>zz"),
   -- vim.keymap.set("n", "G", "Gzz"),
