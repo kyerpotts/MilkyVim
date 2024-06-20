@@ -28,6 +28,7 @@ return {
   {
     "rose-pine/neovim",
     name = "rose-pine",
+    -- priority = 1000,
     config = function()
       require("rose-pine").setup({
         variant = "main",
@@ -93,7 +94,7 @@ return {
           FloatBorder = { fg = colors.black, bg = colors.background },
         },
       })
-      -- vim.cmd.colorscheme("fluoromachine")
+      vim.cmd("colorscheme rose-pine")
     end,
   },
 }
