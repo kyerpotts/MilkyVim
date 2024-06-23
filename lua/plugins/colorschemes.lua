@@ -34,6 +34,11 @@ return {
         variant = "main",
         dark_variant = "main",
         dim_inactive_windows = true,
+        styles = {
+          bold = true,
+          italic = true,
+          transparency = false,
+        }
       })
       vim.cmd("colorscheme rose-pine")
     end,
