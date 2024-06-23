@@ -132,6 +132,7 @@ return {
           "eslint",
           "html",
           "bashls",
+          "emmet_language_server",
         },
       })
       local lspconfig = require("lspconfig")
@@ -238,9 +239,22 @@ return {
       lspconfig.html.setup({
         capabilities = lsp_capabilities,
       })
-      lspconfig.cssls.setup({})
+      lspconfig.emmet_language_server.setup({})
+      lspconfig.cssls.setup({
+        capabilities = lsp_capabilities,
+      })
       lspconfig.bashls.setup({})
     end,
+  },
+  {
+    "Jezda1337/nvim-html-css",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-lua/plenary.nvim"
+    },
+    config = function()
+      require("html-css"):setup()
+    end
   },
   {
     "linux-cultist/venv-selector.nvim",
@@ -249,7 +263,7 @@ return {
       { "<leader>lv", "<cmd>VenvSelect<cr>", desc = "Select Python [V]irtual En[V]ironment" },
     },
   },
-  { -- Autoformat TODO: Fix formatting so it won't use prettier
+  { -- Autoformat
     "stevearc/conform.nvim",
     event = { "BufWritePre" },
     cmd = { "ConformInfo" },
@@ -383,6 +397,10 @@ return {
           format = function(entry, vim_item)
             local lspkind_ok, lspkind = pcall(require, "lspkind")
             if not lspkind_ok then
+              if entry.source.name == "html-css" then
+                vim_item.menu = entry.completion_item.menu
+                return vim_item
+              end
               -- From kind_icons array
               vim_item.kind = string.format("%s %s", kind_icons[vim_item.kind], vim_item.kind) -- This concatenates the icons with the name of the item kind
               -- Source
@@ -471,6 +489,25 @@ return {
           { name = "nvim_lsp" },
           { name = "luasnip" },
           { name = "path" },
+          {
+            name = "html-css",
+            option = {
+              max_count = {}, -- not ready yet
+              enable_on = {
+                "html",
+                "css",
+                "js",
+                "jsx",
+                -- ...
+              },                                                   -- set the file types you want the plugin to work on
+              file_extensions = { "css", "sass", "less", "html" }, -- set the local filetypes from which you want to derive classes
+              style_sheets = {
+                -- example of remote styles, only css no js for now
+                -- "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css",
+                -- "https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css",
+              }
+            }
+          },
         },
       })
     end,
