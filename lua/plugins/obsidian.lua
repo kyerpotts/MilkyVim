@@ -14,7 +14,7 @@ return {
       },
     },
     templates = {
-      folder = "Templates",
+      folder = "Templates/",
       date_format = "%Y-%m-%d",
       time_format = "%H:%M",
     },
