@@ -75,13 +75,13 @@ return {
   --   vim.fn.writefile(new_lines, "file_path")
   -- end, { desc = "Add [T]ask" }),
   --
-  -- vim.keymap.set("n", "<leader>oo", function()
-  --   vim.cmd("cd $HOME/Documents/Braincage/ | Telescope find_files")
-  --   -- local success = vim.loop.chdir("/home/squidmilk/Documents/Braincage/")
-  --   -- if not success then
-  --   --   vim.notify("Unable to go to Obsidian Vault", vim.log.levels.ERROR)
-  --   -- else
-  --   --   vim.notify("Changed to Obsidian Vault", vim.log.levels.INFO)
-  --   -- end
-  -- end, { desc = "[O]pen Vault" }),
+  vim.keymap.set("n", "<leader>oo", function()
+    vim.cmd("cd $HOME/Documents/Braincage/ | Telescope find_files")
+    -- local success = vim.loop.chdir("/home/squidmilk/Documents/Braincage/")
+    -- if not success then
+    --   vim.notify("Unable to go to Obsidian Vault", vim.log.levels.ERROR)
+    -- else
+    --   vim.notify("Changed to Obsidian Vault", vim.log.levels.INFO)
+    -- end
+  end, { desc = "[O]pen Vault" }),
 }
