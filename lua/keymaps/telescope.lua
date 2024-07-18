@@ -1,6 +1,6 @@
 local builtin = require("telescope.builtin")
 return {
-  vim.keymap.set("n", "<leader><leader>", builtin.buffers, { desc = "Find Buffers" }),
+  vim.keymap.set("n", "<leader>bb", builtin.buffers, { desc = "Find Buffers" }),
   vim.keymap.set("n", "<leader>gf", builtin.git_files, { desc = "[G]it [F]iles" }),
   vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "[F]ind [F]iles" }),
   vim.keymap.set("n", "<leader>fq", builtin.quickfix, { desc = "[F]ind [Q]uickfix" }),
