@@ -15,16 +15,60 @@ return {
     , { desc = "Add [I]nbox Note" }),
   vim.keymap.set("n", "<leader>ol",
     function()
-      local file_path = "/home/squidmilk/Documents/Braincage/001 Literature Notes/" ..
-          vim.fn.input("Enter a note name: ", "", "file") .. ".md"
-      if vim.fn.empty(vim.fn.glob(file_path)) > 0 then
-        vim.cmd("silent! !touch " .. vim.fn.fnameescape(file_path))
+      -- Grab the source of the file
+      local current_file = vim.fn.expand('%:p')
+      -- Define the directory the file is to be placed in
+      local dest_direcotry = "/home/squidmilk/Documents/Braincage/001 Literature Notes"
+      -- Check if the directory exists
+      if vim.fn.isdirectory(dest_direcotry) == 0 then
+        vim.api.nvim_err_writeln(dest_direcotry .. " does not exist.")
+        return
       end
-      vim.cmd("edit " .. vim.fn.fnameescape(file_path))
-      vim.api.nvim_set_current_dir('/home/squidmilk/Documents/Braincage/')
-      vim.cmd("ObsidianTemplate Literature Notes Template")
+      -- Get just the file name
+      local filename = vim.fn.expand('%:t')
+      -- Construct the new file path
+      local new_file = dest_direcotry .. '/' .. filename
+      local success = os.rename(current_file, new_file)
+      if success then
+        print("Note successfully moved to " .. new_file)
+      else
+        vim.api.nvim_err_writeln("Failed to move literature note.")
+        return
+      end
+
+      -- Remove the file from the quickfix list
+      vim.cmd("Trouble qflist toggle")
+      local qf_list = vim.fn.getqflist()
+      local current_bufnr = vim.fn.bufnr('%')
+      local new_qf_list = {}
+      for _, item in ipairs(qf_list) do
+        if item.bufnr ~= current_bufnr then
+          table.insert(new_qf_list, item)
+        end
+      end
+      vim.fn.setqflist(new_qf_list)
+      vim.cmd("Trouble qflist toggle")
+
+      -- Close the current buffer
+      vim.cmd('bdelete')
+      -- Go to the next item in the quickfix list
+      vim.cmd('cnext')
+      -- If the end of the quickfix list has been hit, wrap to the first item in the list
+      if vim.v.exception:match('E553') then
+        vim.cmd('cfirst')
+      end
     end
-    , { desc = "Add [L]iterature Note" }),
+    -- function()
+    --   local file_path = "/home/squidmilk/Documents/Braincage/001 Literature Notes/" ..
+    --       vim.fn.input("Enter a note name: ", "", "file") .. ".md"
+    --   if vim.fn.empty(vim.fn.glob(file_path)) > 0 then
+    --     vim.cmd("silent! !touch " .. vim.fn.fnameescape(file_path))
+    --   end
+    --   vim.cmd("edit " .. vim.fn.fnameescape(file_path))
+    --   vim.api.nvim_set_current_dir('/home/squidmilk/Documents/Braincage/')
+    --   vim.cmd("ObsidianTemplate Literature Notes Template")
+    -- end
+    , { desc = "Move [L]iterature Note" }),
   vim.keymap.set("n", "<leader>op",
     function()
       local file_path = "/home/squidmilk/Documents/Braincage/002 Permanent Notes/" ..
@@ -84,4 +128,12 @@ return {
     --   vim.notify("Changed to Obsidian Vault", vim.log.levels.INFO)
     -- end
   end, { desc = "[O]pen Vault" }),
+  vim.keymap.set("n", "<leader>oq", function()
+    local curr_dir = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h')
+    local target_dir = vim.fn.fnamemodify("/home/squidmilk/Documents/Braincage/", ':p:h')
+    if curr_dir ~= target_dir then
+      vim.fn.chdir(target_dir)
+    end
+    vim.cmd("ObsidianQuickSwitch")
+  end, { desc = "[Q]uick Switcher" }),
 }
