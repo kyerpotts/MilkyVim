@@ -10,6 +10,44 @@ local function new_note()
   vim.cmd("ObsidianTemplate Fleeting Notes Template")
 end
 
+local function delete_note()
+  local current_file = vim.fn.expand('%:p')
+  local current_dir = vim.fn.expand('%:p:h')
+
+  -- Prompt for confirmation
+  local confirm = vim.fn.input("Are you sure you want to delete " .. current_file .. "? (y/n): ")
+  if confirm:lower() ~= 'y' then
+    print("File deletion cancelled.")
+    return
+  end
+
+  -- Close the buffer
+
+  -- Delete the file
+  local success, err = os.remove(current_file)
+  if not success then
+    print("Error deleting file: " .. (err or "Unknown error"))
+    return
+  end
+  print("File deleted: " .. current_file)
+
+  if #vim.fn.getqflist() > 0 then
+    -- Remove the file from the quickfix list
+    vim.cmd("Trouble qflist toggle")
+    local qf_list = vim.fn.getqflist()
+    local current_bufnr = vim.fn.bufnr('%')
+    local new_qf_list = {}
+    for _, item in ipairs(qf_list) do
+      if item.bufnr ~= current_bufnr then
+        table.insert(new_qf_list, item)
+      end
+    end
+    vim.cmd('bdelete!')
+    vim.fn.setqflist(new_qf_list)
+    vim.cmd("Trouble qflist toggle")
+  end
+end
+
 local function send_note(directory)
   -- Grab the source of the file
   local current_file = vim.fn.expand('%:p')
@@ -61,6 +99,9 @@ return {
   vim.keymap.set("n", "<leader>oi",
     new_note
     , { desc = "Add [I]nbox Note" }),
+  vim.keymap.set("n", "<leader>od",
+    delete_note
+    , { desc = "[D]elete Note" }),
   vim.keymap.set("n", "<leader>ol",
     function()
       send_note("/home/squidmilk/Documents/Braincage/001 Literature Notes")
@@ -70,7 +111,7 @@ return {
     function()
       send_note("/home/squidmilk/Documents/Braincage/002 Permanent Notes")
     end
-    , { desc = "Add [P]ermanent Note" }),
+    , { desc = "Move [P]ermanent Note" }),
   vim.keymap.set("n", "<leader>ot",
     function()
       vim.cmd("ObsidianTemplate")
