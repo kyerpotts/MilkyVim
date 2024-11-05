@@ -126,7 +126,7 @@ return {
           "lemminx",
           "basedpyright",
           "clangd",
-          "tsserver",
+          "ts_ls",
           "tailwindcss",
           "cssls",
           "eslint",
@@ -206,7 +206,7 @@ return {
           },
         },
       })
-      lspconfig.tsserver.setup({
+      lspconfig.ts_ls.setup({
         settings = {
           typescript = {
             inlayHints = {
