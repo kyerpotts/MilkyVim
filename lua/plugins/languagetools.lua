@@ -132,7 +132,7 @@ return {
           "html",
           "bashls",
           "emmet_language_server",
-          "pyright",
+          -- "pyright",
           "pylsp"
         },
       })
@@ -196,17 +196,18 @@ return {
         },
       })
       lspconfig.lemminx.setup({})
-      lspconfig.basedpyright.setup({
-        settings = {
-          basedpyright = {
-            analysis = {
-              autoSearchPaths = true,
-              diagnosticMode = "openFilesOnly",
-              useLibraryCodeForTypes = true,
-            },
-          },
-        },
-      })
+      lspconfig.pylsp.setup({})
+      -- lspconfig.basedpyright.setup({
+      --   settings = {
+      --     basedpyright = {
+      --       analysis = {
+      --         autoSearchPaths = true,
+      --         diagnosticMode = "openFilesOnly",
+      --         useLibraryCodeForTypes = true,
+      --       },
+      --     },
+      --   },
+      -- })
       lspconfig.ts_ls.setup({
         settings = {
           typescript = {
