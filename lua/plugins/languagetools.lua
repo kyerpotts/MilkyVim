@@ -133,6 +133,7 @@ return {
           "bashls",
           "emmet_language_server",
           "pyright",
+          "pylsp"
         },
       })
       local lspconfig = require("lspconfig")
