@@ -124,7 +124,6 @@ return {
         ensure_installed = {
           "lua_ls",
           "lemminx",
-          "basedpyright",
           "clangd",
           "ts_ls",
           "tailwindcss",
@@ -133,6 +132,7 @@ return {
           "html",
           "bashls",
           "emmet_language_server",
+          "pyright",
         },
       })
       local lspconfig = require("lspconfig")
