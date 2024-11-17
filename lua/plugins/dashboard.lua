@@ -34,7 +34,12 @@ return {
             { action = "cd $HOME/ | Telescope find_files", desc = " Find file", icon = " ", key = "f" },
             { action = "Telescope oldfiles", desc = " Recent files", icon = "󰱼 ", key = "r" },
             { action = "Telescope live_grep", desc = " Find text", icon = " ", key = "g" },
-            { action = "cd $HOME/Documents/Braincage/ | Telescope find_files", desc = " Obsidian", icon = " ", key = "o" },
+            {
+              action = "cd $HOME/Documents/Braincage/ | ObsidianQuickSwitch",
+              desc = " Obsidian",
+              icon = " ",
+              key = "o"
+            },
             { action = "cd $HOME/.config/nvim/ | Telescope find_files", desc = " Config", icon = " ", key = "c" },
             { action = "Lazy", desc = " Lazy", icon = "󰒲 ", key = "L" },
             { action = "lua require('lazy').sync()", desc = " Update Plugins", icon = " ", key = "u" },

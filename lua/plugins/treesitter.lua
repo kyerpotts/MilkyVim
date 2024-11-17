@@ -24,6 +24,7 @@ return {
         "typescript",
         "tsx",
         "rust",
+        "regex",
         "bash",
         "html",
         "css",
